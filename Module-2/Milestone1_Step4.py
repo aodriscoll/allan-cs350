@@ -16,10 +16,12 @@
 # Load the GPIO interface from the Raspberry Pi Python Module
 # The GPIO interface will be available through the GPIO object
 import RPi.GPIO as GPIO
+import math
 
 # Load the time module so that we can utilize the sleep method to 
 # inject a pause into our operation
 import time
+from datetime import datetime
 
 # Setup the GPIO interface
 #
@@ -44,28 +46,33 @@ GPIO.setup(18, GPIO.OUT)
 pwm18 = GPIO.PWM(18, 60)
 
 # Start the PWM instance on GPIO line 18 with 0% duty cycle
-pwm18.start(0)
 
 #
 # Configure the loop variable so that we can exit cleanly when the user
 # issues a keyboard interrupt (CTRL-C)
 #
 repeat = True
+x = 3*math.pi/2
+dc = 0
+max_dc = 30
+x_step = (math.pi/max_dc)/5
+time_step = (2/max_dc)/5
+half_max_dc = max_dc/2
+start_time = datetime.now().timestamp()
 while repeat:
     try:
-        # Loop from 0 to 100 in increments of 5, and update the dutyCycle
-        # accordingly, pausing 1/10th of a second between each update
+        pwm18.start(dc)
 
-        for duty_cycle in range(0, 100, 5):
-            pwm18.start(duty_cycle)
-            time.sleep(0.1)
+        s = round(math.sin(x)*half_max_dc+half_max_dc)
 
-        # Loop from 100 to 0 in increments of -5, and update the dutyCycle
-        # accordingly, pausing 1/10th of a second between each update
-            
-        for duty_cycle in range(100, 0, -5):
-            pwm18.start(duty_cycle)
-            time.sleep(0.1)
+        if dc != s:
+            current_time = datetime.now().timestamp()
+            print(f"{current_time-start_time},{dc}")
+            dc = min(max(0,s),max_dc)
+            print(f"{current_time-start_time},{dc}")
+
+        time.sleep(time_step)
+        x = x+x_step
 
 
     except KeyboardInterrupt:

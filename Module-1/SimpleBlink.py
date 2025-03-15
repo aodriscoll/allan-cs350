@@ -63,13 +63,13 @@ while repeat:
         # for time.sleep(#) where the argument is a number of seconds
         # This turns the LED ON
         GPIO.output(18, True)
-        time.sleep(1)
+        time.sleep(0.03)
 
         # Set GPIO line 18 to False - disable output voltage, and then pause
         # for time.sleep(#) where the argument is a number of seconds
         # This turns the LED OFF
         GPIO.output(18, False)
-        time.sleep(1)
+        time.sleep(0.025)
     except KeyboardInterrupt:
         # If we reach this line we have executed a Ctrl-C to kill the 
         # Script, so let the user know we are cleaning up

@@ -44,29 +44,28 @@ GPIO.setup(18, GPIO.OUT)
 pwm18 = GPIO.PWM(18, 60)
 
 # Start the PWM instance on GPIO line 18 with 0% duty cycle
-pwm18.start(0)
 
 #
 # Configure the loop variable so that we can exit cleanly when the user
 # issues a keyboard interrupt (CTRL-C)
 #
+dc = 50
 repeat = True
 while repeat:
     try:
-        # Loop from 0 to 100 in increments of 5, and update the dutyCycle
-        # accordingly, pausing 1/10th of a second between each update
 
-        for duty_cycle in range(0, 100, 5):
-            pwm18.start(duty_cycle)
-            time.sleep(0.1)
+       pwm18.start(dc)
 
-        # Loop from 100 to 0 in increments of -5, and update the dutyCycle
-        # accordingly, pausing 1/10th of a second between each update
-            
-        for duty_cycle in range(100, 0, -5):
-            pwm18.start(duty_cycle)
-            time.sleep(0.1)
-
+       x = input().strip()
+       if x == '+':
+           dc = dc+5
+           if dc > 100:
+               dc = 100
+       elif x == '-':
+           dc = dc-5
+           if dc < 0:
+               dc = 0
+       print(dc)
 
     except KeyboardInterrupt:
         # Stop the PWM instance on GPIO line 18

@@ -20,6 +20,7 @@ import RPi.GPIO as GPIO
 # Load the time module so that we can utilize the sleep method to 
 # inject a pause into our operation
 import time
+from datetime import datetime
 
 # Setup the GPIO interface
 #
@@ -51,21 +52,31 @@ pwm18.start(0)
 # issues a keyboard interrupt (CTRL-C)
 #
 repeat = True
+start_time = datetime.now().timestamp()
 while repeat:
     try:
         # Loop from 0 to 100 in increments of 5, and update the dutyCycle
         # accordingly, pausing 1/10th of a second between each update
 
+        last = 0
         for duty_cycle in range(0, 100, 5):
+            current_time = datetime.now().timestamp()
+            print(f"{current_time-start_time},{last}")
             pwm18.start(duty_cycle)
+            print(f"{current_time-start_time},{duty_cycle}")
             time.sleep(0.1)
+            last = duty_cycle
 
         # Loop from 100 to 0 in increments of -5, and update the dutyCycle
         # accordingly, pausing 1/10th of a second between each update
             
         for duty_cycle in range(100, 0, -5):
+            current_time = datetime.now().timestamp()
+            print(f"{current_time-start_time},{last}")
             pwm18.start(duty_cycle)
+            print(f"{current_time-start_time},{duty_cycle}")
             time.sleep(0.1)
+            last = duty_cycle
 
 
     except KeyboardInterrupt:

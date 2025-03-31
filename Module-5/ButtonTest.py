@@ -103,7 +103,7 @@ while repeat:
             ## Only display if the DEBUG flag is set
             if(DEBUG):
                 print("Button Pressed")
-        sleep(20)
+        sleep(.2)
     except KeyboardInterrupt:
         print("Cleaning up. Exiting...")
         repeat = False

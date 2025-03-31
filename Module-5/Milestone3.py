@@ -14,6 +14,7 @@
 # Version   |   Description
 #------------------------------------------------------------------
 #    1          Initial Development
+#    2          Implementation for Assignment (AJO)
 #------------------------------------------------------------------
 
 ##
@@ -29,6 +30,7 @@ from statemachine import StateMachine, State
 ##
 ## Import required to allow us to pause for a specified length of time
 ##
+import time
 from time import sleep
 
 ##
@@ -42,11 +44,18 @@ import adafruit_character_lcd.character_lcd as characterlcd
 
 from threading import Thread
 
+import pandas as pd
+import matplotlib.pyplot as plt
+
 ##
 ## DEBUG flag - boolean value to indicate whether or not to print 
 ## status messages on the console of the program
 ## 
 DEBUG = True
+
+records = []
+
+start_time = time.time()
 
 ##
 ## ManagedDisplay - Class intended to manage the 16x2 
@@ -238,6 +247,16 @@ class CWMachine(StateMachine):
         off.to(wordPause) | wordPause.to(off)
     )
 
+    def on_enter_off(self):
+        if(DEBUG):
+            #print(f"{time.time()} * on_enter_off")
+            pass
+
+    def on_exit_off(self):
+        if(DEBUG):
+            #print(f"{time.time()} * on_exit_off")
+            pass
+
     ##
     ## on_enter_dot - Action performed when the state machine transitions
     ## into the dot state
@@ -248,10 +267,16 @@ class CWMachine(StateMachine):
         ##
         ## TODO: Add the single line of code necessary to blink the Red
         ## LED for 500ms one time. Remove this TODO comment block when
-        ## complete.
+        ## complete. TEST
 
         if(DEBUG):
-            print("* Changing state to red - dot")
+            now = time.time()
+            #print(f"{now} * Changing state to red - dot")
+            records.append({"time": (now-start_time), "red": 0, "blue": 0})
+            records.append({"time": (now-start_time), "red": 1, "blue": 0})
+
+        self.redLight.blink(.5, 0, 1, False)
+
 
     ##
     ## on_exit_dot - Action performed when the statemachine transitions
@@ -263,7 +288,15 @@ class CWMachine(StateMachine):
         ##
         ## TODO: Add the single line of code necessary to ensure that the
         ## Red LED is turned off. Remove this TODO comment block when
-        ## complete.
+        ## complete. TEST
+
+        if(DEBUG):
+            now = time.time()
+            #print(f"{now} * Changing state to off - dot")
+            records.append({"time": (now-start_time), "red": 1, "blue": 0})
+            records.append({"time": (now-start_time), "red": 0, "blue": 0})
+
+        self.redLight.off()
 
     ##
     ## on_enter_dash - Action performed when the state machine transitions
@@ -278,7 +311,13 @@ class CWMachine(StateMachine):
         ## complete.
 
         if(DEBUG):
-            print("* Changing state to blue - dash")
+            now = time.time()
+            #print(f"{time.time()} * Changing state to blue - dash")
+            records.append({"time": (now-start_time), "red": 0, "blue": 0})
+            records.append({"time": (now-start_time), "red": 0, "blue": 1})
+
+        self.blueLight.blink(1.5, 0, 1, False)
+
 
     ##
     ## on_exit_dash - Action performed when the statemachine transitions
@@ -292,6 +331,14 @@ class CWMachine(StateMachine):
         ## Blue LED is turned off. Remove this TODO comment block when
         ## complete.
 
+        if(DEBUG):
+            now = time.time()
+            #print(f"{time.time()} * Changing state to off - dash")
+            records.append({"time": (now-start_time), "red": 0, "blue": 1})
+            records.append({"time": (now-start_time), "red": 0, "blue": 0})
+
+        self.blueLight.off()
+
 
     ##
     ## on_enter_dotDashPause - Action performed when the state machine 
@@ -304,8 +351,11 @@ class CWMachine(StateMachine):
         ## of the next operation for 250ms. Remove this TODO comment block when
         ## complete.
 
+        sleep(.25)
+
         if(DEBUG):
-            print("* Pausing Between Dots/Dashes - 250ms")
+            #print(f"{time.time()} * Pausing Between Dots/Dashes - 250ms")
+            pass
 
     ##
     ## on_exit_dotDashPause - Action performed when the statemachine transitions
@@ -325,8 +375,11 @@ class CWMachine(StateMachine):
         ## of the next operation for 750ms. Remove this TODO comment block when
         ## complete.
 
+        sleep(.75)
+
         if(DEBUG):
-            print("* Pausing Between Letters - 750ms")
+            #print(f"{time.time()} * Pausing Between Letters - 750ms")
+            pass
 
     ##
     ## on_exit_letterPause - Action performed when the statemachine transitions
@@ -346,8 +399,11 @@ class CWMachine(StateMachine):
         ## of the next operation for 3000ms. Remove this TODO comment block 
         ## when complete.
 
+        sleep(3)
+
         if(DEBUG):
-            print("* Pausing Between Words - 3000ms")
+            #print(f"{time.time()} * Pausing Between Words - 3000ms")
+            pass
 
     ##
     ## on_exit_wordPause - Action performed when the statemachine transitions
@@ -366,6 +422,11 @@ class CWMachine(StateMachine):
         ## between the primary message of 'SOS' and the backup message of
         ## OK. Remove this TODO comment block when complete. You should be
         ## able to accomplish this in fewer than 6 lines of code.
+
+        if self.activeMessage == self.message1:
+            self.activeMessage = self.message2
+        else:
+            self.activeMessage = self.message1
 
         if(DEBUG):
             print(f"* Toggling active message to: {self.activeMessage} ")
@@ -408,6 +469,7 @@ class CWMachine(StateMachine):
             wordsCounter = 1
             for word in wordList:
             
+                print(f'Processing: word {word}')
                 ## Setup counter to determine time buffer after letters
                 lenWord = len(word)
                 wordCounter = 1
@@ -415,11 +477,14 @@ class CWMachine(StateMachine):
 
                     ## Convert the character to its string in morse code
                     morse = self.morseDict.get(char)
+                    print(f'Processing: char {char} as {morse}')
 
                     ## Setup counter to determine time buffer after letters
                     lenMorse = len(morse)
                     morseCounter = 1
                     for x in morse:
+
+                        print(f'Processing: morse {x}')
 
                         ## Dot or dash?
 
@@ -430,6 +495,21 @@ class CWMachine(StateMachine):
                         ## You should be able to accomplish this in fewer 
                         ## than 10 lines of code.
 
+                        if x == '.':
+                            #print(f'{time.time()} doing dot')
+                            self.send("doDot")
+                            #print(f'{time.time()} after 1 doDot current state is {self.current_state}')
+                            self.send("doDot")
+                            #print(f'{time.time()} after 2 doDot current state is {self.current_state}')
+                        elif x == '-':
+                            #print(f'{time.time()} doing dash')
+                            self.send("doDash")
+                            #print(f'{time.time()} after 1 doDash current state is {self.current_state}')
+                            self.send("doDash")
+                            #print(f'{time.time()} after 2 doDash current state is {self.current_state}')
+                        else:
+                            print('Unexpected character in morse code table.')
+
                         # If we are still sending process a dotDashPause event
 
                         ## TODO: Add the code necessary code to determine if 
@@ -439,6 +519,12 @@ class CWMachine(StateMachine):
                         ## Remove this TODO comment block when complete. 
                         ## You should be able to accomplish this in fewer 
                         ## than 6 lines of code.
+                        if morseCounter <= lenMorse:
+                            #print(f'{time.time()} doing dot dash pause')
+                            self.send('doDDP')
+                            self.send('doDDP')
+                        
+                        morseCounter = morseCounter + 1
 
                     # If we are still sending process a letterPause event
 
@@ -450,6 +536,13 @@ class CWMachine(StateMachine):
                     ## You should be able to accomplish this in fewer 
                     ## than 6 lines of code.
 
+                    if wordCounter <= lenWord:
+                        #print(f'{time.time()} doing letter pause')
+                        self.send('doLP')
+                        self.send('doLP')
+                    
+                    wordCounter = wordCounter + 1
+
                 # If we are still sending process a wordPause event
 
                 ## TODO: Add the code necessary code to determine if 
@@ -459,6 +552,13 @@ class CWMachine(StateMachine):
                 ## Remove this TODO comment block when complete. 
                 ## You should be able to accomplish this in fewer 
                 ## than 6 lines of code.
+
+                if wordsCounter <= lenWords:
+                    #print(f'{time.time()} doing word pause')
+                    self.send('doWP')
+                    self.send('doWP')
+                
+                wordsCounter = wordsCounter + 1
 
         ## Cleanup the display i.e. clear it
         self.screen.cleanupDisplay()
@@ -490,6 +590,8 @@ greenButton = Button(24)
 ## You should be able to accomplish this in a single
 ## line of code.
 
+greenButton.when_pressed = cwMachine.processButton
+
 ##
 ## Setup loop variable
 ##
@@ -503,6 +605,7 @@ while repeat:
         ## Only display if the DEBUG flag is set
         if(DEBUG):
             print("Killing time in a loop...")
+            pass
 
         ## sleep for 20 seconds at a time. This value is not crucial, 
         ## all of the work for this application is handled by the 
@@ -520,3 +623,16 @@ while repeat:
         ## Cleanly exit the state machine after completing the last message
         cwMachine.endTransmission = True
         sleep(1)
+
+        df = pd.DataFrame(records)
+        print(df)
+
+        # Create a plot
+        plt.plot(df['time'], df['red'], color='red')
+        plt.plot(df['time'], df['blue'], color='blue')
+        plt.xlabel("Time")
+        plt.ylabel("On/Off")
+        plt.title("Morse Code")
+
+        # Save the plot as a PNG image
+        plt.savefig("morse.png")

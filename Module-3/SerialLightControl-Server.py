@@ -15,6 +15,8 @@
 # Version   |   Description
 #------------------------------------------------------------------
 #    1          Initial Development
+#    2          Completed the changes based on the assignment 
+#               instructions (AJO).
 #------------------------------------------------------------------
 
 # This imports the Python serial package to handle communications over the
@@ -88,39 +90,49 @@ while repeat:
                 # if nothing else matches in our list of cases.
                 match command:
                         case "off":
+                                # Print an "off" message in block letters so that
+                                #  it can be easily seen in the demonstration video.
+
+                                print(r' _____ ______ ______ ')
+                                print(r'|  _  ||  ___||  ___|')
+                                print(r'| | | || |_   | |_   ')
+                                print(r'| | | ||  _|  |  _|  ')
+                                print(r'\ \_/ /| |    | |    ')
+                                print(r' \___/ \_|    \_|    ')
+                     
+                     
+                          
                                 # Set GPIO line 18 to False - disable output voltage
                                 # This turns off voltage output to whatever may be 
                                 # connected to GPIO line 18.
                         
-                                ##
-                                ## TODO: Add one line of code to turn off the 
-                                ## LED and remove the TODO comment block when 
-                                ## complete
-                                ##
+                                GPIO.output(18, False)
         
                         case "on":
+                                # Print an "on" message in block letters so that
+                                #  it can be easily seen in the demonstration video.
+
+                                print(r' _____  _   _ ')
+                                print(r'|  _  || \ | |')
+                                print(r'| | | ||  \| |')
+                                print(r'| | | || . ` |')
+                                print(r'\ \_/ /| |\  |')
+                                print(r' \___/ \_| \_/')
+
                                 # Set GPIO line 18 to True - enable output voltage
                                 # This turns on voltage output to whatever may be 
                                 # connected to GPIO line 18.
                         
-                                ##
-                                ## TODO: Add one line of code to turn on the 
-                                ## LED and remove the TODO comment block when 
-                                ## complete
-                                ##
+                                GPIO.output(18, True)
 
                         case "exit" | "quit":
                                 # Cleanup the GPIO pins used in this application and 
                                 # exit cleanly
 
-                                ##
-                                ## TODO: Add three lines of code. One to make sure the
-                                ## LED is OFF, one to perform the cleanup of used GPIO
-                                ## Lines, one to end the loop - DO NOT USE A BREAK 
-                                ## STATEMENT - and remove the TODO comment block when 
-                                ## complete
-                                ##         
-                                               
+                                GPIO.output(18, False)
+                                GPIO.cleanup()
+                                repeat = False
+
                         case _:
                                 # No valid commands in the input so do nothing
                                 pass
@@ -133,6 +145,12 @@ while repeat:
                 GPIO.cleanup()
                 repeat = False
 
-
-
-                
+# Print an exit message in block letters so that it can be easily seen in the
+# demonstration video.
+print(r'______ __   __ _____ ')
+print(r'| ___ \\ \ / /|  ___|')
+print(r'| |_/ / \ V / | |__  ')
+print(r'| ___ \  \ /  |  __| ')
+print(r'| |_/ /  | |  | |___ ')
+print(r'\____/   \_/  \____/ ')
+                     

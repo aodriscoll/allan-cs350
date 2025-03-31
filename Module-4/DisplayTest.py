@@ -80,6 +80,7 @@ lcd.clear()
 ##
 ## Configure our loop variable
 ##
+counter = 0
 repeat = True
 while repeat:
     try:
@@ -88,12 +89,18 @@ while repeat:
         ## lcd_line_1 = 'Happy\n' in order to set the 
         ## first line of the display to represent the date
         ## and time. Month, Day, Hour, Minute, Second
-        ## lcd_line_1 = datetime.now().strftime('%b %d  %H:%M:%S\n')
-        lcd_line_1 = 'Happy\n'
-        lcd_line_2 = 'Display Day!'
+        lcd_line_1 = datetime.now().strftime('%b %d  %H:%M:%S\n')
+        # lcd_line_1 = 'Happy\n'
+        lcd_line_2 = '                Now is the time for all good men to come to the aid of their country.'
 
         # combine both lines into one update to the display
-        lcd.message = lcd_line_1 + lcd_line_2
+        length = len(lcd_line_2)
+        sub_message = lcd_line_2[counter:min(length, counter+16)].ljust(16)
+        lcd.message = lcd_line_1 + sub_message
+        if counter >= length-1:
+            counter = 0
+        else:
+            counter = counter + 1
 
         ## Refresh the time every second
         sleep(1)

@@ -20,6 +20,10 @@
 #    1          Initial Development
 #------------------------------------------------------------------
 
+import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+
 ##
 ## Imports required to handle our Button, and our LED devices
 ##
@@ -256,6 +260,8 @@ class TempMachine(StateMachine):
     ##
     def displayTemp(self):
 
+        records = []
+
         ##
         ## Loop until we are shutdown
         ##
@@ -264,17 +270,42 @@ class TempMachine(StateMachine):
             ## Setup line 1
             line1 = datetime.now().strftime('%b %d  %H:%M:%S\n')
 
+            celsius = self.getCelsius()
+            fahrenheit = (((9/5) * celsius) + 32)
+            rh = self.getRH()
+
             ## Setup line 2
             if self.activeScale == 'C':
-                line2 = f"T:{self.getCelsius():0.1f}C H:{self.getRH():0.1f}%"
+                line2 = f"T:{celsius:0.1f}C H:{rh:0.1f}%"
             else:
-                line2 = f"T:{self.getFahrenheit():0.1f}F H:{self.getRH():0.1f}%"
+                line2 = f"T:{fahrenheit:0.1f}F H:{rh:0.1f}%"
 
             self.screen.updateScreen(line1 + line2)
+
+            records.append({"time": datetime.now(), "temp": fahrenheit, "hum": rh})
+            print(f"T:{fahrenheit:0.5f}F H:{rh:0.5f}%")
+
             sleep(1)
 
         ## Cleanup the display i.e. clear it
         self.screen.cleanupDisplay()
+
+        df = pd.DataFrame(records)
+
+        # Create a plot
+        fig, (ax1, ax2) = plt.subplots(2, 1)
+        ax1.plot(df['time'], df['temp'], color='red')
+        ax1.xaxis.set_major_locator(mdates.AutoDateLocator(interval_multiples=True))
+        ax1.set(ylabel="Fahrenheit")
+
+        ax2.plot(df['time'], df['hum'], color='blue')
+        ax2.xaxis.set_major_locator(mdates.AutoDateLocator(interval_multiples=True))
+        ax2.set(xlabel="Time", ylabel="Relative Humidity (Percent)")
+
+        fig.suptitle("Temperature and Humidity")
+
+        # Save the plot as a PNG image
+        plt.savefig("temp.png")
 
 
 

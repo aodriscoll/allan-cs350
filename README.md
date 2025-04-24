@@ -26,12 +26,12 @@
 
 | Description                                           | Link                                                                                                                                                                         |
 | :---------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Milestone Three Input With Buttons Lab Reflection     | [Allan_ODriscoll_CS350_5_1_Milestone_Three_Input_With_Buttons_Lab_20250405.docx](Allan_ODriscoll_CS350_5_1_Milestone_Three_Input_With_Buttons_Lab_20250405.docx)             |
-| Milestone Three Input With Buttons Lab Diagram        | [Allan_ODriscoll_CS350_5_1_Milestone_Three_Input_With_Buttons_Lab_20250405.drawio.pdf](Allan_ODriscoll_CS350_5_1_Milestone_Three_Input_With_Buttons_Lab_20250405.drawio.pdf) |
-| Milestone Three Input With Buttons Lab Python Script  | [Allan_ODriscoll_Milestone3.py](Allan_ODriscoll_Milestone3.py)                                                                                                               |
-| Final Project Thermostat Lab Report                   | [Allan_ODriscoll_CS350_7_2_Final_Project_Thermostat_20250419.docx](Allan_ODriscoll_CS350_7_2_Final_Project_Thermostat_20250419.docx)                                         |
-| Final Project Thermostat Lab Diagram                  | [Allan_ODriscoll_CS350_7_2_Final_Project_Thermostat_20250419.drawio.pdf](Allan_ODriscoll_CS350_7_2_Final_Project_Thermostat_20250419.drawio.pdf)                             |
-| Final Project Thermostat Lab Python Script            | [Allan_ODriscoll_Thermostat.py](Allan_ODriscoll_Thermostat.py)                                                                                                               |
+| Milestone Three Input With Buttons Lab Reflection     | [Allan_ODriscoll_CS350_5_1_Milestone_Three_Input_With_Buttons_Lab_20250405.docx](artifacts/Allan_ODriscoll_CS350_5_1_Milestone_Three_Input_With_Buttons_Lab_20250405.docx)             |
+| Milestone Three Input With Buttons Lab Diagram        | [Allan_ODriscoll_CS350_5_1_Milestone_Three_Input_With_Buttons_Lab_20250405.drawio.pdf](artifacts/Allan_ODriscoll_CS350_5_1_Milestone_Three_Input_With_Buttons_Lab_20250405.drawio.pdf) |
+| Milestone Three Input With Buttons Lab Python Script  | [Allan_ODriscoll_Milestone3.py](artifacts/Allan_ODriscoll_Milestone3.py)                                                                                                               |
+| Final Project Thermostat Lab Report                   | [Allan_ODriscoll_CS350_7_2_Final_Project_Thermostat_20250419.docx](artifacts/Allan_ODriscoll_CS350_7_2_Final_Project_Thermostat_20250419.docx)                                         |
+| Final Project Thermostat Lab Diagram                  | [Allan_ODriscoll_CS350_7_2_Final_Project_Thermostat_20250419.drawio.pdf](artifacts/Allan_ODriscoll_CS350_7_2_Final_Project_Thermostat_20250419.drawio.pdf)                             |
+| Final Project Thermostat Lab Python Script            | [Allan_ODriscoll_Thermostat.py](artifacts/Allan_ODriscoll_Thermostat.py)                                                                                                               |
 
 ## Summarize the project and what problem it was solving.
 

@@ -35,7 +35,7 @@
 
 ## Summarize the project and what problem it was solving.
 
-This course explored various aspects of embedded systems, including microcontrollers and single-board computers like the Raspberry Pi. The final project involved the creation of a thermostat similar to one that you might find in your home. The device consisted of a Raspberry Pi, a temperature sensor, several buttons, an LCD display, and several light indicators. The idea was to simulate the functionality of a thermostat to heat and cool the environment based on an active temperature reading and a temperature set point. The requirements for this project included the following:
+This course explored various aspects of embedded systems, including microcontrollers and single-board computers like the Raspberry Pi. The final project involved the creation of a thermostat similar to one that you might find in your home. The device consisted of a Raspberry Pi, a temperature sensor, several buttons, an LCD display, and several LED light indicators. The idea was to simulate the functionality of a thermostat to heat and cool the environment based on an active temperature reading and a temperature set point. The requirements for this project included the following:
 
 - The device must have a mechanism to set the mode to either OFF, HEAT, or COOL. This is accomplished with a button (green) that cycles through the three possible modes. This button is connected to the system through GPIO pin 24. The software implements an interrupt-driven state machine that handles the transition between the various modes.
 - The device must have a mechanism to define a temperature set point. This is accomplished with two buttons connected to GPIO pins 12 and 25. The first button (red) increases the set point by one degree. The second button (blue) decreases the set point by one degree. When the unit starts, the set point should be initialized to 72 degrees Fahrenheit, but it may be adjusted to the user’s desired temperature using the buttons. Button presses generate interrupt signals that allow the system to react.
@@ -50,13 +50,13 @@ The project was delivered as a prototype on a breadboard, along with a video dem
 
 ## What did you do particularly well?
 
-The project was designed and built over a set of smaller milestone projects. One in particular was Milestone Three, which involved the conversion of text to Morse code. This was challenging because I needed to get the timing correct for dots, dashes, letters, and words. This also involved the creation of a state machine that ensured that everything was sequenced correctly. I felt that I did particularly well in this Milestone because I put extra effort into getting the timings correct. A graph of the result for "SOS" and "OK" looked like the following:
+The project was designed and built over a set of smaller milestone projects. Milestone three was one of the most interesting projects, which involved the conversion of text to Morse code. This was challenging because I needed to get the timing correct for dots, dashes, letters, and words. This also involved the creation of a state machine that ensured that everything was sequenced correctly. I felt that I did particularly well in this Milestone because I put extra effort into getting the timings correct. A graph of the result for "SOS" and "OK" looked like the following:
 
 ![Morse Code Timings for "SOS" and "OK"](images/morse_final.png)
 
 ## Where could you improve?
 
-I feel that I did pretty well in the project and the related milestones. However, there is always room for improvement. For one thing, I could spend more time reading and studying the APIs for the Python modules that interact with the external hardware (e.g., gpiozero and adafruit). Having a deeper understanding of these APIs would have allowed me to improve the solution for the end user beyond what was already done. There is so much that can be done with this technology, and I feel that I have barely scratched the surface.
+I feel that I did pretty well in the project and the related milestones. However, there is always room for improvement. For one thing, I could have spent more time reading and studying the APIs for the Python modules that interact with the external hardware (e.g., gpiozero and adafruit). Having a deeper understanding of these APIs would have allowed me to improve the solution for the end user beyond what was already done. There is so much that can be done with this technology, and I feel that I have barely scratched the surface.
 
 ## What tools and/or resources are you adding to your support network?
 
@@ -68,4 +68,4 @@ The ability to integrate hardware with software will be a useful skill that will
 
 ## How did you make this project maintainable, readable, and adaptable?
 
-I ensured that I followed industry standards and best practices while writing and documenting the code. The code is easy to follow, object-oriented, and can easily be converted to modules for reuse.
+I ensured that I followed industry standards and best practices while writing and documenting the code. The code is easy to follow, object-oriented, and can easily be converted to modules for reuse. THis is something that I will continue to do in all of my future projects.
